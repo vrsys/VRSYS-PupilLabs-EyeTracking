@@ -435,6 +435,14 @@
       },
       "hash": "95c646ee69d04567e0c8db5b42869dcfde5f0ac3"
     },
+    "com.vrsys.pupillabs": {
+      "version": "file:com.vrsys.pupil-labs",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.vrsys.core": "1.0.10"
+      }
+    },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",
       "depth": 0,

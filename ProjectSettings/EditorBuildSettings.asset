@@ -8,8 +8,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Packages/com.vrsys.pupillabs/Samples/Eye Tracking Samples/Scenes/VRSYS
+      - Eye Tracking Samples.unity
+    guid: c16cfcc8eef5ff24a9dc3bf3692ed44d
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 2b2e48adb799281459f6358e4c4c4362, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: cfd1db83fd0b99f40bfd348630f24cb6, type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 33f29e26ee324b741be1b851b0ebc005, type: 2}
   m_UseUCBPForAssetBundles: 0

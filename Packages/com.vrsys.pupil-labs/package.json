@@ -1,0 +1,21 @@
+{
+  "name" : "com.vrsys.pupillabs",
+  "version" : "1.0.0",
+  "displayName" : "VRSYS PupilLabs",
+  "description": "Integration of PupilLabs eye tracking with VRSYS framework.",
+  "documentationUrl" : "https://vrsys.gitbook.io/vrsys",
+  "dependencies": {
+    "com.vrsys.core": "1.0.10"
+  },
+  "samples": [
+    {
+      "displayName": "Eye Tracking Samples",
+      "description": "Contains sample scene that shows how to setup eye tracking with VRSYS-Core.",
+      "path": "Samples~/Eye Tracking Samples"
+    }
+  ],
+  "author": {
+    "name": "VRSYS",
+    "url": "https://www.uni-weimar.de/vr"
+  }
+}

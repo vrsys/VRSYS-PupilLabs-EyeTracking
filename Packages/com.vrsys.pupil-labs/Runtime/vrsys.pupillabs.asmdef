@@ -1,0 +1,18 @@
+{
+    "name": "vrsys.pupillabs",
+    "rootNamespace": "",
+    "references": [
+        "GUID:9d44f9d7f3932da4c84af6164f11d5e5",
+        "GUID:81a7834a7869f154893f439eb2de892d",
+        "GUID:1491147abca9d7d4bb7105af628b223e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

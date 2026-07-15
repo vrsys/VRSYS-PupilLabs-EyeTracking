@@ -1,0 +1,19 @@
+{
+    "name": "vrsys.pupillabs.samples",
+    "rootNamespace": "",
+    "references": [
+        "vrsys.core",
+        "vrsys.pupillabs",
+        "Unity.Netcode.Runtime",
+        "Unity.InputSystem"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
