@@ -91,7 +91,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03f440c3cf2c01a40b462e23e459133f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: vrsys.pupillabs.samples::GazeDataApplier
-  _cursor: {fileID: 3489825636762493486}
+  _camera: {fileID: 7216047633375872280}
+  _cursor: {fileID: 9144628828027528293}
   _raycastDistance: 100
   _raycastLayers:
     serializedVersion: 2
