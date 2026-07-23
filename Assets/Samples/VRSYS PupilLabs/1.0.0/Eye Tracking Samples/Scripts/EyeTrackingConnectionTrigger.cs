@@ -32,7 +32,7 @@ namespace VRSYS.PupilLabs.Samples
         private void Update()
         {
             if(_triggerConnectionAction.WasPressedThisFrame())
-                _eyeTrackingUser.SetDeviceIndexAndConnectRpc(_deviceIndex);
+                _eyeTrackingUser.Connect(_deviceIndex);
         }
 
         #endregion

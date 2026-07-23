@@ -15,7 +15,10 @@ namespace VRSYS.PupilLabs
         public static NeonDeviceConnector Instance { get; private set; }
 
         #endregion
-        
+
+        public event Action<NeonGazeDataProvider> GazeProviderActivated;
+
+
         #region Properties
 
         [Header("Connection Configuration")]
@@ -30,6 +33,9 @@ namespace VRSYS.PupilLabs
         [SerializeField] private DeviceManager _deviceManager;
         [SerializeField] private GazeDataProvider _gazeDataProvider;
         public GazeDataProvider GazeDataProvider => _gazeDataProvider;
+        
+        public bool IsGazeDataProviderActive => 
+            _gazeDataProvider != null && _gazeDataProvider.isActiveAndEnabled;
 
         [Header("Debug")] 
         [SerializeField] private bool _verbose = true;
@@ -69,6 +75,8 @@ namespace VRSYS.PupilLabs
                 ExtendedLogger.LogError(GetType().Name, "Canceling connection. One or multiple missing eye tracking reference. Check inspector configuration.", this);
                 return;
             }
+
+            await _dataStorage.WhenReady();
 
             // If device index == -1 --> auto connecting
             // Connecting to first device found
@@ -141,6 +149,7 @@ namespace VRSYS.PupilLabs
                 ExtendedLogger.LogInfo(GetType().Name, "Activating gaze provider.", this);
             
             _gazeDataProvider.gameObject.SetActive(true);
+            GazeProviderActivated?.Invoke( (NeonGazeDataProvider) _gazeDataProvider);
         }
 
         #endregion

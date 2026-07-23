@@ -1,36 +1,79 @@
+using System.Collections;
 using PupilLabs;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace VRSYS.PupilLabs
 {
-    public class EyeTrackingUser : NetworkBehaviour
-    {
-        #region Properties
 
-        private NetworkVariable<int> _connectedToDeviceIndex = new(-1, NetworkVariableReadPermission.Everyone,
-            NetworkVariableWritePermission.Owner);
+    public class EyeTrackingUser : MonoBehaviour
+    {
+
+
+
+
+        [Tooltip("If true, this component connects and subscribes to gaze data on its own " +
+                 "(Start / OnEnable / OnDisable). Set to false when an external driver such as " +
+                 "NetworkedEyeTrackingUser is responsible for calling Connect() / SubscribeToGazeData() / " +
+                 "UnsubscribeFromGazeData() instead.")]
+        [SerializeField] private bool _standalone = true;
+        [SerializeField] private int _deviceIndex = -1;
 
         public UnityEvent<EyeTrackingData> OnEyeTrackingData = new();
-        
-        #endregion
 
-        #region Mono- & NetworkBehaviour Methods
-
-        public override void OnNetworkSpawn()
+        private void Start()
         {
-            NeonDeviceConnector.Instance.GazeDataProvider.gazeDataReady.AddListener(OnGazeDataReady);
+            if (_standalone)
+                Connect(_deviceIndex);
         }
 
-        public override void OnNetworkDespawn()
+        private void OnEnable()
+        {
+            if (_standalone)
+                SubscribeToGazeData();
+        }
+
+        private void OnDisable()
+        {
+            if (_standalone)
+                UnsubscribeFromGazeData();
+        }
+
+        public void Connect(int deviceIndex)
+        {
+            NeonDeviceConnector.Instance.Connect(deviceIndex);
+        }
+
+        public void SubscribeToGazeData()
+        {
+            StartCoroutine(SubscribeWhenConnectorReady());
+        }
+
+        private IEnumerator SubscribeWhenConnectorReady()
+        {
+            yield return new WaitUntil(() =>
+                NeonDeviceConnector.Instance != null);
+
+            if (NeonDeviceConnector.Instance.IsGazeDataProviderActive)
+            {
+                HandleActivated(NeonDeviceConnector.Instance.GazeDataProvider);
+            }
+            else
+            {
+                NeonDeviceConnector.Instance.GazeProviderActivated += HandleActivated;
+            }
+        }
+
+        public void UnsubscribeFromGazeData()
         {
             NeonDeviceConnector.Instance.GazeDataProvider.gazeDataReady.RemoveListener(OnGazeDataReady);
+            NeonDeviceConnector.Instance.GazeProviderActivated -= HandleActivated;
         }
 
-        #endregion
-
-        #region Private Methods
+        private void HandleActivated(GazeDataProvider gazeDataProvider)
+        {
+            gazeDataProvider.gazeDataReady.AddListener(OnGazeDataReady);
+        }
 
         private void OnGazeDataReady(GazeDataProvider provider)
         {
@@ -44,28 +87,9 @@ namespace VRSYS.PupilLabs
                 GazeDirection = provider.GazeRay.direction,
                 UpdateTime = AudioSettings.dspTime
             };
-            
+
             OnEyeTrackingData.Invoke(data);
         }
-
-        #endregion
-
-        #region RPCs
-
-        [Rpc(SendTo.Owner)]
-        public void SetDeviceIndexRpc(int idx) => _connectedToDeviceIndex.Value = idx;
-
-        [Rpc(SendTo.Owner)]
-        public void ConnectToDeviceRpc() => NeonDeviceConnector.Instance.Connect(_connectedToDeviceIndex.Value);
-
-        [Rpc(SendTo.Owner)]
-        public void SetDeviceIndexAndConnectRpc(int idx)
-        {
-            _connectedToDeviceIndex.Value = idx;
-            NeonDeviceConnector.Instance.Connect(_connectedToDeviceIndex.Value);
-        }
-
-        #endregion
     }
 
     public struct EyeTrackingData
