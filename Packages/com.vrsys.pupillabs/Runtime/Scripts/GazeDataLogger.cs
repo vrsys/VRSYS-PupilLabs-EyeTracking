@@ -211,6 +211,8 @@ public class GazeDataLogger : MonoBehaviour
             _writer = new StreamWriter(filePath, append: false);
             _writer.WriteLine(GazeCsvHeader);
         }
+
+        Debug.Log("Started recording: " + filePath);
     }
 
     public void StopRecording()
@@ -220,6 +222,9 @@ public class GazeDataLogger : MonoBehaviour
             _writer?.Dispose();
             _writer = null;
         }
+
+        Debug.Log("Stopped recording");
+
     }
 
     public void EndSession()

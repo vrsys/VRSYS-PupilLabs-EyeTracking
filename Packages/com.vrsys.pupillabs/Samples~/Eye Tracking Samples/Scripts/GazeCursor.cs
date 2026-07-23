@@ -20,7 +20,7 @@ namespace VRSYS.PupilLabs.Samples
 
         private void Start()
         {
-            if (!GetComponentInParent<NetworkObject>().IsOwner)
+            if (GetComponentInParent<NetworkObject>() && !GetComponentInParent<NetworkObject>().IsOwner)
             {
                 _cursor.gameObject.SetActive(false);
                 return;

@@ -1013,6 +1013,7 @@ GameObject:
   - component: {fileID: 3359338612747561171}
   - component: {fileID: 594239884952932559}
   - component: {fileID: 8144543267159891899}
+  - component: {fileID: 8874564403044541356}
   - component: {fileID: 605530052906706585}
   m_Layer: 0
   m_Name: HMDUserPrefab - Eye Tracking
@@ -1305,10 +1306,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8aba8a0d56caf8b4e8e45b6f7efc3d03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: vrsys.pupillabs::VRSYS.PupilLabs.EyeTrackingUser
-  ShowTopMostFoldoutHeaderGroup: 1
+  _standalone: 0
+  _deviceIndex: -1
   OnEyeTrackingData:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8874564403044541356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7216047633976425198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ee675d8b74f52b42a5f9694d35f76a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: vrsys.pupillabs::VRSYS.PupilLabs.NetworkedEyeTrackingUser
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!114 &605530052906706585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1338,7 +1353,7 @@ MonoBehaviour:
       m_Action: Trigger Connection
       m_Flags: 0
     m_Flags: 0
-  _deviceIndex: 2
+  _deviceIndex: -1
 --- !u!1 &7216047634103647853
 GameObject:
   m_ObjectHideFlags: 0
