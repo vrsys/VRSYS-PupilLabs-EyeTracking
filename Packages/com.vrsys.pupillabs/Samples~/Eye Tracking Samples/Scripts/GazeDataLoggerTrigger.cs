@@ -1,40 +1,56 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using VRSYS.PupilLabs;
 
-public class GazeDataLoggerTrigger : MonoBehaviour
+namespace VRSYS.PupilLabs.Samples
 {
 
-    [SerializeField] private InputAction _triggerRecordingAction;
-    [SerializeField] private string _participantId = "0";
-
-    private GazeDataLogger _gazeDataLogger;
-
-    private int trialBlock = 0;
-    
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class GazeDataLoggerTrigger : MonoBehaviour
     {
-        _gazeDataLogger = GetComponent<GazeDataLogger>();
-        _gazeDataLogger.BeginSession(_participantId);
 
-        _triggerRecordingAction.Enable();
+        [SerializeField] private InputAction _triggerRecordingAction;
+        [SerializeField] private string _participantId = "0";
 
-    }
+        private GazeDataLogger _gazeDataLogger;
+        private TransformRecorder _headDataLogger;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (_triggerRecordingAction.WasPressedThisFrame())
+        private int trialBlock = 0;
+
+
+        // Start is called once before the first execution of Update after the MonoBehaviour is created
+        void Start()
         {
-            if (_gazeDataLogger.IsRecording)
+            _gazeDataLogger = GetComponent<GazeDataLogger>();
+            _headDataLogger = GetComponent<TransformRecorder>();
+            _gazeDataLogger.BeginSession(_participantId);
+            _headDataLogger.BeginSession(_participantId);
+
+
+            _triggerRecordingAction.Enable();
+
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            if (_triggerRecordingAction.WasPressedThisFrame())
             {
-                _gazeDataLogger.StopRecording();
-            }
-            else
-            {
-                _gazeDataLogger.StartRecording(trialBlock++);
+                if (_gazeDataLogger.IsRecording)
+                {
+                    _gazeDataLogger.StopRecording();
+                }
+                else
+                {
+                    _gazeDataLogger.StartRecording(trialBlock);
+                }
+
+                if (_headDataLogger.IsRecording)
+                {
+                    _headDataLogger.StopRecording();
+                }
+                else
+                {
+                    _headDataLogger.StartRecording(trialBlock++);
+                }
             }
         }
     }
