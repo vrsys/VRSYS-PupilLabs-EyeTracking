@@ -15,10 +15,16 @@ namespace VRSYS.PupilLabs
         private NetworkVariable<int> _connectedToDeviceIndex = new(-1,
             NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
+        #region MonoBehaviour Callbacks
+
         private void Awake()
         {
             _core = GetComponent<EyeTrackingUser>();
         }
+
+        #endregion
+
+        #region NetworkBehaviour Callbacks
 
         public override void OnNetworkSpawn()
         {
@@ -29,6 +35,8 @@ namespace VRSYS.PupilLabs
         {
             _core.UnsubscribeFromGazeData();
         }
+
+        #endregion
 
         #region RPCs
 

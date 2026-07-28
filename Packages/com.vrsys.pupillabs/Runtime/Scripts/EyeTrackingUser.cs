@@ -21,6 +21,7 @@ namespace VRSYS.PupilLabs
 
         public UnityEvent<EyeTrackingData> OnEyeTrackingData = new();
 
+        #region MonoBehaviour Callbacks
         private void Start()
         {
             if (_standalone)
@@ -38,6 +39,10 @@ namespace VRSYS.PupilLabs
             if (_standalone)
                 UnsubscribeFromGazeData();
         }
+
+        #endregion
+
+        #region Eye-Tracker Connection Functions
 
         public void Connect(int deviceIndex)
         {
@@ -74,6 +79,8 @@ namespace VRSYS.PupilLabs
         {
             gazeDataProvider.gazeDataReady.AddListener(OnGazeDataReady);
         }
+
+        #endregion
 
         private void OnGazeDataReady(GazeDataProvider provider)
         {
