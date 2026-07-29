@@ -55,7 +55,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6652004966583838292}
-  - component: {fileID: 3776206963921315210}
+  - component: {fileID: 8664551127982733899}
   m_Layer: 0
   m_Name: Gaze Origin
   m_TagString: Untagged
@@ -79,7 +79,7 @@ Transform:
   - {fileID: 9144628828027528293}
   m_Father: {fileID: 7216047633375872280}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3776206963921315210
+--- !u!114 &8664551127982733899
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -88,9 +88,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2328928811626264586}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03f440c3cf2c01a40b462e23e459133f, type: 3}
+  m_Script: {fileID: 11500000, guid: cfe9906288430f1449ef92c86982f63c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: vrsys.pupillabs.samples::GazeDataApplier
+  m_EditorClassIdentifier: vrsys.pupillabs.samples::VRSYS.PupilLabs.Samples.GazeCursor
   _camera: {fileID: 7216047633375872280}
   _cursor: {fileID: 9144628828027528293}
   _raycastDistance: 100
@@ -1014,7 +1014,7 @@ GameObject:
   - component: {fileID: 594239884952932559}
   - component: {fileID: 8144543267159891899}
   - component: {fileID: 8874564403044541356}
-  - component: {fileID: 605530052906706585}
+  - component: {fileID: 154773588600531395}
   m_Layer: 0
   m_Name: HMDUserPrefab - Eye Tracking
   m_TagString: Untagged
@@ -1051,7 +1051,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1642403964
+  GlobalObjectIdHash: 1824907054
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -1324,7 +1324,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: vrsys.pupillabs::VRSYS.PupilLabs.NetworkedEyeTrackingUser
   ShowTopMostFoldoutHeaderGroup: 1
---- !u!114 &605530052906706585
+--- !u!114 &154773588600531395
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1333,27 +1333,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 7216047633976425198}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dbf3fc8ae1fa414087b7d6a44e69993, type: 3}
+  m_Script: {fileID: 11500000, guid: 0017fb36b9c07d34a9f1ef2394c40962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: vrsys.pupillabs.samples::VRSYS.PupilLabs.Samples.EyeTrackingConnectionTrigger
   _triggerConnectionAction:
     m_Name: Trigger Connection
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 5391bfe9-4bba-42b1-9e53-911aaf6ff5a0
+    m_Id: bc74e1b1-603e-4755-91de-36e080b6f731
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings:
     - m_Name: 
-      m_Id: c7e058ea-8a5c-4dc5-adf0-d54f4229637b
-      m_Path: <Keyboard>/c
+      m_Id: 9573c92c-4ffb-4e55-8290-84897e751f4e
+      m_Path: <Keyboard>/#(C)
       m_Interactions: 
       m_Processors: 
       m_Groups: 
       m_Action: Trigger Connection
       m_Flags: 0
     m_Flags: 0
-  _deviceIndex: -1
+  _deviceIndex: 0
 --- !u!1 &7216047634103647853
 GameObject:
   m_ObjectHideFlags: 0
