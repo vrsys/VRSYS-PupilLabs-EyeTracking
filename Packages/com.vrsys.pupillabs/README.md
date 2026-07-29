@@ -7,7 +7,7 @@ Unity package that provides custom connection and logging functionality for the 
 
 1. Add the Neon XR Core dependency to your project as described [here](https://docs.pupil-labs.com/neon/neon-xr/neon-xr-core-package/) in the _Adding Neon XR to Your Project_ section.
 2. Add this package, e.g. via Package Manager → "Add package from git URL" pointing at this repo, path `https://github.com/vrsys/VRSYS-PupilLabs-EyeTracking.git?path=/Packages/com.vrsys.pupillabs` (requires VRSYS-Core, `com.vrsys.core` to already be installed).
-4. Import the **Eye Tracking Samples** sample from the Package Manager window to get the example scenes and prefab described below.
+3. Import the **Eye Tracking Samples** sample from the Package Manager window to get the example scenes described below.
 
 ## Contents
 
@@ -15,18 +15,26 @@ Unity package that provides custom connection and logging functionality for the 
 - `Runtime/Scripts/EyeTrackingUser.cs` — per-user component that subscribes to gaze data once the connector is ready and re-broadcasts it as an `OnEyeTrackingData` Unity event (pupil diameter, eye openness, gaze origin/direction).
 - `Runtime/Scripts/NetworkedEyeTrackingUser.cs` — Netcode companion for `EyeTrackingUser` that drives connection/subscription over RPCs for the network-owning client (used together with `EyeTrackingUser` in "standalone = false" mode).
 - `Runtime/Scripts/GazeDataLogger.cs` — subscribes directly to the raw ~200 Hz tracker stream (independent of Unity's frame rate) and writes gaze/pupil/eyelid samples to a timestamped CSV under `Application.persistentDataPath/StudyData`. In UDP mode, the timestamps provided by the tracker are used to derive a synchronised unity timestamp for each data packet. In TCP mode, no timestamp is read by the NeonXR package, so the time at which the package was received is used instead.   
+- `Runtime/Scripts/Logging/TransformRecorder.cs` — generic companion to `GazeDataLogger` that records any target transform's world position/rotation to its own timestamped CSV (e.g. head/HMD movement alongside gaze).
+- `Runtime/Scripts/Logging/GazeSamplePlayer.cs` / `Runtime/Scripts/Logging/TransformPlayer.cs` — play back a CSV written by `GazeDataLogger` / `TransformRecorder` against a target transform in real time, for reviewing or re-visualising a recorded session.
+- `Runtime/Scripts/GazeCalibrationController.cs` — runs a fast 5-point gaze calibration, using the `WahbaPoseSolver` shipped with `com.pupil-labs.neon-xr.core` to fit a corrective rotation from raw sensor-space gaze to known world-space targets. Also exposes a validation routine that projects the corrected gaze onto the calibration plane so you can visually check accuracy after calibrating.
+
 
 Sample scenes (under `Samples~/Eye Tracking Samples/Scenes`, imported via Package Manager):
 
 - **VRSYS - Eye Tracking Samples** — networked scene using `NetworkedEyeTrackingUser` on a spawned HMD user prefab, showing connection triggered by a role/network setup.
-- **VRSYS - Non-Networked Eye Tracking** — single-user scene using standalone `EyeTrackingUser`, plus a and CSV recording (`GazeDataLogger` + `GazeDataLoggerTrigger`).
+- **VRSYS - Non-Networked Eye Tracking** — single-user scene using standalone `EyeTrackingUser`, plus an example of CSV recording (`GazeDataLogger` +  `TransformRecorder` + `GazeDataLoggerTrigger`).
+- **VRSYS - Calibration** — demonstrates the 5-point calibration and validation routine using `GazeCalibrationController`.
+- **VRSYS - Play Gaze Data** — demonstrates played-back gaze/transform CSVs using `GazeSamplePlayer` and `TransformPlayer`.
 
 ## Using it in a custom scene
 
 1. Copy the "PupilLabs Eye Tracking" game object from a sample scene, which should have the components `DeviceManager`, `DataStorage`, `NeonGazeDataProvider` (on a child object), and this package's `NeonDeviceConnector`. Ensure that the connector's `_dataStorage` / `_deviceManager` / `_gazeDataProvider` fields are wired up to sibling components. Set `_autoConnect` / `_deviceNames` as needed (leave `_deviceNames` empty and call `Connect(-1)` to auto-connect to the first device found).
 2. Add `EyeTrackingUser` to the user/camera GameObject that should receive gaze data. For a non-networked scene leave `_standalone = true` so it connects itself; for a networked scene set `_standalone = false` and add `NetworkedEyeTrackingUser` alongside it so connection is driven over the network for the owning client.
 3. Listen to `EyeTrackingUser.OnEyeTrackingData` (or use the `GazeCursor` sample script as a template) to react to gaze — e.g. raycast from `GazeOrigin`/`GazeDirection` transformed into world space.
-4. For logging, add `GazeDataLogger` to a game object. Call `BeginSession(participantId)` at least once before recording. Call `StartRecording(trialBlock)` and `StopRecording()` to record raw gaze/pupil data to a CSV.
+4. For logging, add `GazeDataLogger` to a game object. Call `BeginSession(participantId)` at least once before recording. Call `StartRecording(trialBlock)` and `StopRecording()` to record raw gaze/pupil data to a CSV. Add `TransformRecorder` alongside it (pointed at the head/HMD transform, or any other transform you want time-aligned with gaze) if you also want a positional record — it uses the same `BeginSession`/`StartRecording`/`StopRecording` calls.
+5. For calibration, add `GazeCalibrationController` to a game object and wire up `arrayOrigin` (centre + right/up axes of the 5-point pattern), `marker` (visual fixation target), `headTransform`, `gazeCursor` (for validation), and a `WahbaPoseSolver` reference (from `com.pupil-labs.neon-xr.core`). Call `StartCalibration()` once before each trial block; subscribe to `CalibrationCompleted` to know whether a correction was solved and applied, and its resulting error in degrees. Call `StartValidation()` afterwards to visually check where corrected gaze lands relative to the calibration array.
+6. To review a recorded session, add `GazeSamplePlayer` and/or `TransformPlayer` to a target transform and set `csvPath` to the CSV written by `GazeDataLogger`/`TransformRecorder` (relative to `Application.persistentDataPath`). Playback starts automatically if `playOnStart` is enabled, or can be triggered via `Load()`/`Play()`/`Stop()`/`Restart()`.
 
 
 ## Notes on Working with the PupilLabs Neon eye tracker in VR
@@ -42,6 +50,6 @@ Sample scenes (under `Samples~/Eye Tracking Samples/Scenes`, imported via Packag
 
 ## TODOs
 
-- Calibration workflow is not yet included.
 - Triggering of recordings of eye-tracking data on the device not yet supported. 
 - Script for application of gaze data to Meta Avatars.
+- The Wahba pose solver's reported calibration error is currently unreliable (always reads back as 0) due to an upstream issue in `neon-xr` ([pupil-labs/neon-xr#5](https://github.com/pupil-labs/neon-xr/issues/5)); the quality gate in `GazeCalibrationController` should be revisited once that's fixed.
