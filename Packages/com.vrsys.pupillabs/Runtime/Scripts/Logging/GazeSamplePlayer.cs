@@ -39,6 +39,8 @@ namespace VRSYS.PupilLabs
         public bool IsLoaded { get; private set; }
         public bool IsPlaying { get; private set; }
 
+        public double PlaybackOrigin => playbackOrigin;
+
         private void Start()
         {
             if (playOnStart)
