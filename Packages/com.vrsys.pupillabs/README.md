@@ -6,7 +6,7 @@ Unity package that provides custom connection and logging functionality for the 
 ## Installation
 
 1. Add the Neon XR Core dependency to your project as described [here](https://docs.pupil-labs.com/neon/neon-xr/neon-xr-core-package/) in the _Adding Neon XR to Your Project_ section.
-2. Add this package, e.g. via Package Manager → "Add package from git URL" pointing at this repo, path `https://github.com/vrsys/VRSYS-PupilLabs-EyeTracking.git?path=/Packages/com.vrsys.pupillabs#v1.1.1` (requires VRSYS-Core, `com.vrsys.core` to already be installed).
+2. Add this package, e.g. via Package Manager → "Add package from git URL" pointing at this repo, path `https://github.com/vrsys/VRSYS-PupilLabs-EyeTracking.git?path=/Packages/com.vrsys.pupillabs#v1.1.2` (requires VRSYS-Core, `com.vrsys.core` to already be installed).
 3. Import the **Eye Tracking Samples** sample from the Package Manager window to get the example scenes described below.
 
 ## Contents

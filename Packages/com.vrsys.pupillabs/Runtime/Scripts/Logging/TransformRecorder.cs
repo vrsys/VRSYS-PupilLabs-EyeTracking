@@ -34,7 +34,7 @@ namespace VRSYS.PupilLabs
             this.participantId = participantId;
         }
 
-        public void StartRecording(int trialBlockNumber)
+        public void StartRecording(string fileIdentifier)
         {
             StopRecording();
 
@@ -42,12 +42,18 @@ namespace VRSYS.PupilLabs
             Directory.CreateDirectory(directory);
 
             string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-            string filePath = Path.Combine(
-                directory,
-                $"p{participantId}_block{trialBlockNumber}_{timestamp}_{fileSuffix}.csv");
+            string filename = $"{fileIdentifier}_{timestamp}_{fileSuffix}.csv";
+
+            string filePath = Path.Combine(directory, filename);
 
             writer = new StreamWriter(filePath, append: false);
             writer.WriteLine(CsvHeader);
+        }
+
+        public void StartRecording(int trialBlockNumber)
+        {
+            string fileIdentifier = $"p{participantId}_block{trialBlockNumber}";
+            StartRecording(fileIdentifier);
         }
 
         public void StopRecording()

@@ -235,7 +235,7 @@ namespace VRSYS.PupilLabs
 
         #region Recording
 
-        public void StartRecording(int trialBlockNumber)
+        public void StartRecording(string fileIdentifier)
         {
             StopRecording();
 
@@ -243,12 +243,9 @@ namespace VRSYS.PupilLabs
             Directory.CreateDirectory(directory);
 
             string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-            string filePath = Path.Combine(
-                directory,
-                $"p{_participantId}_block{trialBlockNumber}_{timestamp}_gaze.csv");
+            string filename = $"{fileIdentifier}_{timestamp}_gaze.csv";
+            string filePath = Path.Combine(directory, filename);
 
-
-       
             lock (_writerLock)
             {
                 _writer = new StreamWriter(filePath, append: false);
@@ -256,6 +253,12 @@ namespace VRSYS.PupilLabs
             }
 
             Debug.Log("Started recording: " + filePath);
+        }
+
+        public void StartRecording(int trialBlockNumber)
+        {
+            string fileIdentifier = $"p{_participantId}_block{trialBlockNumber}";
+            StartRecording(fileIdentifier);
         }
 
         public void StopRecording()
