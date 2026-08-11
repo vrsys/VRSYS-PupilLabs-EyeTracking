@@ -23,11 +23,12 @@ namespace VRSYS.PupilLabs
         }
 
         [SerializeField] private Transform target;
-        [SerializeField] private float playbackSpeed = 1f;
-        [SerializeField] private bool playOnStart = true;
+        [SerializeField] public float playbackSpeed = 1f;
+        [SerializeField] public bool playOnStart = true;
 
         [Tooltip("CSV written by TransformRecorder, relative to Application.persistentDataPath.")]
-        [SerializeField] private string csvPath;
+        [SerializeField] public string csvPath;
+        [SerializeField] public string fileSuffix;
 
         private readonly List<Sample> samples = new();
         private int sampleIndex;
